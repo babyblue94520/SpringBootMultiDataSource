@@ -1,0 +1,29 @@
+spring:
+  datasource:
+    master:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://dockerhost:3306/testdb?useSSL=false
+      username: root
+      password: wow
+      testWhileIdle: true
+      validationQuery: SELECT 1
+      maximum-pool-size: 200
+    slave:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://dockerhost:3306/CashNet_Game?useSSL=false
+      username: root
+      password: wow
+      testWhileIdle: true
+      validationQuery: SELECT 1
+      maximum-pool-size: 200
+  jpa:
+    show-sql: true
+    generate-ddl: false 
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      dialect: org.hibernate.dialect.MySQL5Dialect
+      
+    
+        
