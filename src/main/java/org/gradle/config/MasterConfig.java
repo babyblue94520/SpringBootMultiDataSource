@@ -1,7 +1,5 @@
 package org.gradle.config;
 
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
@@ -31,7 +29,8 @@ public class MasterConfig {
 
     @Autowired
     private JpaProperties jpaProperties;
-    
+
+    @Primary
     @Bean(name = "masterDataSource")
     @Qualifier("masterDataSource")
     @ConfigurationProperties(prefix="spring.datasource.master")
@@ -52,15 +51,10 @@ public class MasterConfig {
     		,@Qualifier("masterDataSource")DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .properties(getVendorProperties(dataSource))
+                .properties(jpaProperties.getHibernateProperties(dataSource))
                 .packages("org.gradle.master.entity") //Entity Page
                 .persistenceUnit("masterPersistenceUnit")
                 .build();
-    }
-
-
-    private Map<String, String> getVendorProperties(DataSource dataSource) {
-        return jpaProperties.getHibernateProperties(dataSource);
     }
 
     @Primary

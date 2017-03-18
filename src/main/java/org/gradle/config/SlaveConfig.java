@@ -1,7 +1,5 @@
 package org.gradle.config;
 
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.sql.DataSource;
 
@@ -13,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -34,7 +31,6 @@ public class SlaveConfig {
 
     @Bean(name = "slaveDataSource")
     @Qualifier("slaveDataSource")
-    @Primary
     @ConfigurationProperties(prefix="spring.datasource.slave")
     public DataSource slaveDataSource() {
         return DataSourceBuilder.create().build();
@@ -51,14 +47,10 @@ public class SlaveConfig {
     		,DataSource dataSource) {
         return builder
                 .dataSource(dataSource)
-                .properties(getVendorProperties(dataSource))
+                .properties(jpaProperties.getHibernateProperties(dataSource))
                 .packages("org.gradle.slave.entity") //Entity Package
                 .persistenceUnit("slavePersistenceUnit")
                 .build();
-    }
-
-    private Map<String, String> getVendorProperties(DataSource dataSource) {
-        return jpaProperties.getHibernateProperties(dataSource);
     }
 
     @Bean(name = "slaveTransactionManager")
