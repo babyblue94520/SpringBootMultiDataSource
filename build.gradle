@@ -16,7 +16,11 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
+<<<<<<< HEAD
 version = '0.0.3-SNAPSHOT'
+=======
+version = '0.0.2-SNAPSHOT'
+>>>>>>> b9bee21 aa
 sourceCompatibility = 1.8
 
 repositories {
